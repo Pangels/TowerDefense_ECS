@@ -1,0 +1,28 @@
+# Ignorer les dossiers des lib
+Library/
+
+# Ignorer les fichiers des solutions Visual Studio
+*.sln
+*.csproj
+*.Editor.csproj
+
+# Ignorer le dossier des builds
+App/
+Build/
+/UWP/
+obj/
+
+# Ignorer le dossier temporaire de Unity
+Temp/
+
+# Ignorer le dossier des versions fonctionnelles (synchroniser sur un autre dépôt)
+Versions_fonctionelles/
+
+# Ignorer le dossier des élèments externes
+External/
+
+# Ignorer le dossier cach� .vs
+.vs/
+
+# Ignorer les logs
+Logs/

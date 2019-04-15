@@ -1,14 +1,16 @@
-﻿using Unity.Entities;
-using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Unity.Entities;
+using UnityEngine;
 
-namespace TowerDefense
+namespace ECS
 {
-    [Serializable]
     public struct BulletData : IComponentData
     {
-        public float Damage;
-        public float Speed;
+        public float damage;
+        public float speed;
+
     }
 
-    public class BulletComponent : ComponentDataProxy<BulletData> { }
+    public class Bullet : ComponentDataProxy<BulletData> { }
 }

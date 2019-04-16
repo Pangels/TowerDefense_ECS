@@ -24,18 +24,28 @@ namespace Hybrid.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            GroupTower TowerJob = new GroupTower { };
-
-            foreach (var entity in GetEntities<GroupTower>())
+            //foreach (var entity in GetEntities<GroupTower>())
+            for (int i = 0; i < GetEntities<GroupTower>().Length; i++)
             {
+                var entity = GetEntities<GroupTower>()[i];
                 var bullet = Object.Instantiate(entity.TowerComponent.BulletPrefab);
+
                 bullet.GetComponent<BulletComponent>().Tower = entity.TowerComponent;
                 entity.TowerComponent.Bullet = bullet.GetComponent<BulletComponent>();
+                entity.PositionTower.Value = entity.TransformTower.position;
+                entity.RotationTower.Value = entity.TransformTower.rotation;
 
                 // Initialize the component variable
                 bullet.GetComponent<PositionComponent>().Value = entity.TransformTower.position;
                 bullet.GetComponent<PositionComponent>().Value.y = 2f;
-                bullet.GetComponent<PositionComponent>().Value.z += 0.5f;
+                if (entity.RotationTower.Value.value.y == 0f)
+                {
+                    bullet.GetComponent<PositionComponent>().Value.z += 0.5f; 
+                }
+                else
+                {
+                    bullet.GetComponent<PositionComponent>().Value.z -= 0.5f;
+                }
                 bullet.GetComponent<RotationComponent>().Value = entity.TransformTower.rotation;
                 bullet.GetComponent<BulletComponent>().IsActive = false;
 
@@ -71,11 +81,11 @@ namespace Hybrid.Systems
                         break;
                     }
                     // If a bullet is shot and no monster is within range, reset the bullet after it arrive in the tower max fire range
-                    else if (Vector3.Distance(bullet.transform.position, bullet.GetComponent<PositionComponent>().Value) < 0.1f)
+                    else if (bullet != null && Vector3.Distance(bullet.transform.position, bullet.GetComponent<PositionComponent>().Value) < 0.1f)
                     {
                         // Smooth animation and return the weapon to its initial state
-                        Quaternion.Slerp(entityT.TowerComponent.TowerWeapon.transform.rotation, Quaternion.Euler(90f, 0, 0), entityT.SpeedTower.Value);
-                        entityT.TowerComponent.TowerWeapon.transform.rotation = /*new Quaternion(0.7071068f, 0f, 0f, 0.7071068f);*/ Quaternion.Euler(90f, 0f, 0f);
+                        entityT.TransformTower.rotation = Quaternion.Slerp(entityT.TransformTower.rotation, entityT.RotationTower.Value, entityT.SpeedTower.Value);
+                        entityT.TowerComponent.TowerWeapon.transform.rotation = Quaternion.Slerp(entityT.TowerComponent.TowerWeapon.transform.rotation, new Quaternion(0.7071068f, 0f, 0f, 0.7071068f), entityT.SpeedTower.Value);
                         bullet.IsActive = false;
                     }
                 }

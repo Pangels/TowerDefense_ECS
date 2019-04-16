@@ -46,10 +46,8 @@ namespace Hybrid.Systems
                     if (Vector3.Distance(position, entityB.PositionBullet.Value) < tower.RestartDistance)
                     {
                         //entityB.TransformBullet.LookAt(tower.TargetMonster.transform);
-                        var targetRotation = Quaternion.LookRotation(tower.TargetMonster.transform.position - entityB.TransformBullet.position) * Quaternion.Euler(90f, 0, 0);
+                        var targetRotation = Quaternion.LookRotation(tower.TargetMonster.transform.position - entityB.TransformBullet.position);
                         entityB.TransformBullet.rotation = Quaternion.Slerp(entityB.TransformBullet.rotation, targetRotation, tower.GetComponent<SpeedComponent>().Value);
-
-                        entityB.PositionBullet.Value = tower.transform.position;
                     }
 
                     // Move the bullet forward from the tower
@@ -67,7 +65,7 @@ namespace Hybrid.Systems
                 {
                     // Hide the bullet by moving it to its starting point
                     entityB.BulletComponent.Tower.TargetMonster = null;
-                    entityB.TransformBullet.rotation = Quaternion.identity;
+                    entityB.TransformBullet.rotation = entityB.RotationBullet.Value;
                     entityB.TransformBullet.position = entityB.PositionBullet.Value;
                 }
             }

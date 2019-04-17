@@ -36,17 +36,8 @@ namespace Hybrid.Systems
                 entity.RotationTower.Value = entity.TransformTower.rotation;
 
                 // Initialize the component variable
-                bullet.GetComponent<PositionComponent>().Value = entity.TransformTower.position;
-                bullet.GetComponent<PositionComponent>().Value.y = 2f;
-                if (entity.RotationTower.Value.value.y == 0f)
-                {
-                    bullet.GetComponent<PositionComponent>().Value.z += 0.5f; 
-                }
-                else
-                {
-                    bullet.GetComponent<PositionComponent>().Value.z -= 0.5f;
-                }
-                bullet.GetComponent<RotationComponent>().Value = entity.TransformTower.rotation;
+                bullet.GetComponent<PositionComponent>().Value = entity.TowerComponent.TowerWeapon.transform.position;
+                bullet.GetComponent<RotationComponent>().Value = entity.TowerComponent.TowerWeapon.transform.rotation;
                 bullet.GetComponent<BulletComponent>().IsActive = false;
 
                 // Update the prefab position for the first shot
@@ -85,7 +76,7 @@ namespace Hybrid.Systems
                     {
                         // Smooth animation and return the weapon to its initial state
                         entityT.TransformTower.rotation = Quaternion.Slerp(entityT.TransformTower.rotation, entityT.RotationTower.Value, entityT.SpeedTower.Value);
-                        entityT.TowerComponent.TowerWeapon.transform.rotation = Quaternion.Slerp(entityT.TowerComponent.TowerWeapon.transform.rotation, new Quaternion(0.7071068f, 0f, 0f, 0.7071068f), entityT.SpeedTower.Value);
+                        entityT.TowerComponent.TowerWeapon.transform.rotation = Quaternion.Slerp(entityT.TowerComponent.TowerWeapon.transform.rotation, Quaternion.identity, entityT.SpeedTower.Value);
                         bullet.IsActive = false;
                     }
                 }

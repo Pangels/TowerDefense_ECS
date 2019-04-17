@@ -27,7 +27,16 @@ namespace Hybrid.Components
 
         protected override void OnUpdate()
         {
-
+            foreach (var entity in GetEntities<GroupMonster>())
+            {
+                // When the monster life is down to '0'
+                if (entity.MonsterComponent.HitPoint == 0)
+                {
+                    entity.MonsterComponent.HitPoint = 10;
+                    entity.TransformMonster.position = entity.PositionMonster.Value;
+                    entity.TransformMonster.GetComponent<PathCreation.Examples.PathFollower>().distanceTravelled = 0f;
+                } 
+            }
         }
     }
 }

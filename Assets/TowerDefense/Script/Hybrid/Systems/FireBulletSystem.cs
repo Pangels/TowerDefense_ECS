@@ -17,8 +17,6 @@ namespace Hybrid.Systems
 
         protected override void OnUpdate()
         {
-            GroupBullet fireBulletJob = new GroupBullet { };
-
             foreach (var entityB in GetEntities<GroupBullet>())
             {
                 if (entityB.BulletComponent.IsActive)
@@ -33,13 +31,6 @@ namespace Hybrid.Systems
                         --tower.TargetMonster.HitPoint;
                         // Reset the position of the bullet to fire a new one
                         position = entityB.PositionBullet.Value;
-
-                        // When the monster life is down to '0'
-                        if (tower.TargetMonster.HitPoint == 0)
-                        {
-                            tower.TargetMonster.HitPoint = 10;
-                            tower.TargetMonster.transform.position = tower.TargetMonster.GetComponent<PositionComponent>().Value;
-                        }
                     }
 
                     // Change the rotation of the bullet before the shot
